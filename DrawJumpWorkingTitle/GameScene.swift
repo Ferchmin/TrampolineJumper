@@ -220,7 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupView(){
-        backgroundColor = UIColor(colorLiteralRed: 38/255, green: 38/255, blue: 45/255, alpha: 1)
+        backgroundColor = UIColor(colorLiteralRed: 38/255, green: 38/255, blue: 46/255, alpha: 1)
     }
     
     func setupCamera(){
