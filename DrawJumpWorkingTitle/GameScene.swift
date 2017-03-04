@@ -10,7 +10,8 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var obstacles:[BallObstacle] = []
+    var obstacles:[PlanetObstacle] = []
+    var unusedObstales:[PlanetObstacle] = []
     
     //Starting the game
     var clickToStartLabel:SKLabelNode?
@@ -80,6 +81,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupFinnishLine()
         setupPauseButton()
         
+        createObstacles(count: 3)
+        
         
         physicsWorld.contactDelegate = self
         
@@ -94,6 +97,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupSideBorders()
         
         //startCountDown()
+    }
+    
+    func createObstacles(count n:Int){
+        
+        let backgroundQueue = DispatchQueue(label: "com.app.queue", qos: .background, target: nil)
+        
+        backgroundQueue.async {
+            
+            for i in 1...n{
+                
+                print(i)
+                let obstacleXPosition = CGFloat(arc4random_uniform(250) + 95)
+                let obstacleSize = CGFloat(arc4random_uniform(50)+50)
+                
+                let obstacle = PlanetObstacle(size: CGSize(width:obstacleSize,height:obstacleSize))
+                obstacle.position = CGPoint(x:obstacleXPosition,y:0)
+                self.unusedObstales.append(obstacle)
+            }
+        }
+        
+    
     }
     
     func setupCountDownLabel(){
@@ -480,7 +504,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if contact.bodyB.node?.physicsBody?.categoryBitMask == obstacleCategory {
-            let obstacle = contact.bodyB.node as! BallObstacle
+            let obstacle = contact.bodyB.node as! PlanetObstacle
             obstacle.pulseAtContact()
             let vector = obstacle.generateForceVector(heroPosition: hero.position, obstaclePosition: obstacle.position)
             hero.physicsBody?.applyImpulse(vector)
@@ -527,10 +551,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        if hasBounced && hero.position.y > mainCamera.position.y + self.frame.height/2 - 325 && (hero.physicsBody?.velocity.dy)! > 0 {
-            mainCamera.position.y=hero.position.y - frame.height/2 + 325
-        }
-        
         
         if (!mainCamera.contains(background.backgrounds[0])) {
             background.moveBottomBackground()
@@ -542,25 +562,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if obstacles.count>0{
                         if hero.position.y - (obstacles.last?.position.y)! > 250 {
                             
-                            let obstacleXPosition = CGFloat(arc4random_uniform(250) + 95)
-                            let obstacleSize = CGFloat(arc4random_uniform(60)+90)
-                            
-                            let obstacle = BallObstacle(size: CGSize(width:obstacleSize,height:obstacleSize))
-                            obstacle.position = CGPoint(x:obstacleXPosition,y:hero.position.y + 350)
+                            let obstacle = unusedObstales.removeFirst()
+                            obstacle.position.y = hero.position.y + 350
                             obstacles.append(obstacle)
                             addChild(obstacle)
+                            
+                            createObstacles(count: 1)
                             
                             generated = true
                         }
                     }else {
-                        let obstacleXPosition = CGFloat(arc4random_uniform(250) + 95)
-                        let obstacleSize = CGFloat(arc4random_uniform(60)+90)
-                        
-                        let obstacle = BallObstacle(size: CGSize(width:obstacleSize,height:obstacleSize))
-                        obstacle.position = CGPoint(x:obstacleXPosition,y:hero.position.y + 350)
+
+                        let obstacle = unusedObstales.removeFirst()
+                        obstacle.position.y = hero.position.y + 350
                         obstacles.append(obstacle)
                         addChild(obstacle)
                         
+                        createObstacles(count: 1)
                         generated = true
                     }
                 }
@@ -569,6 +587,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
             
         }//gamepaused
+    }
+    
+    override func didFinishUpdate() {
+        if(!gamePaused){
+            if hasBounced && hero.position.y > mainCamera.position.y + self.frame.height/2 - 325 && (hero.physicsBody?.velocity.dy)! > 0 {
+                mainCamera.position.y=hero.position.y - frame.height/2 + 325
+            }
+        }
     }
     
     

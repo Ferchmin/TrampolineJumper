@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E51753561E687DD500C348EA /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51753551E687DD500C348EA /* GradientBackground.swift */; };
 		E51777E71E633FBF00CE0519 /* PauseMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51777E61E633FBF00CE0519 /* PauseMenu.swift */; };
 		E51777E91E633FF300CE0519 /* PauseMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51777E81E633FF300CE0519 /* PauseMenuButton.swift */; };
+		E51777EB1E6840FB00CE0519 /* PlanetObstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51777EA1E6840FB00CE0519 /* PlanetObstacle.swift */; };
 		E51BD8B21D9EDE9B008D9680 /* BallObstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51BD8B11D9EDE9B008D9680 /* BallObstacle.swift */; };
 		E54BBD801DB15EBC0082386F /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54BBD7F1DB15EBC0082386F /* Obstacle.swift */; };
 		E562C7EF1E561BFF002C6461 /* FinnishLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E562C7EE1E561BFF002C6461 /* FinnishLine.swift */; };
@@ -27,8 +29,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E51753551E687DD500C348EA /* GradientBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
 		E51777E61E633FBF00CE0519 /* PauseMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseMenu.swift; sourceTree = "<group>"; };
 		E51777E81E633FF300CE0519 /* PauseMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseMenuButton.swift; sourceTree = "<group>"; };
+		E51777EA1E6840FB00CE0519 /* PlanetObstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetObstacle.swift; sourceTree = "<group>"; };
 		E51BD8B11D9EDE9B008D9680 /* BallObstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallObstacle.swift; sourceTree = "<group>"; };
 		E54BBD7F1DB15EBC0082386F /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		E562C7EE1E561BFF002C6461 /* FinnishLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinnishLine.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 				E5DC787C1E53C85A00A527E6 /* Essentials */,
 				E5DC786D1E510AA000A527E6 /* ActiveGameObjects */,
 				E5DC786E1E510B4D00A527E6 /* Background.swift */,
+				E51753551E687DD500C348EA /* GradientBackground.swift */,
 				E51777E61E633FBF00CE0519 /* PauseMenu.swift */,
 				E51777E81E633FF300CE0519 /* PauseMenuButton.swift */,
 				E595ABAE1D67304C0082A44D /* Main.storyboard */,
@@ -119,6 +124,7 @@
 				E595AC0A1D69E44A0082A44D /* ScreenBorders.swift */,
 				E54BBD7F1DB15EBC0082386F /* Obstacle.swift */,
 				E51BD8B11D9EDE9B008D9680 /* BallObstacle.swift */,
+				E51777EA1E6840FB00CE0519 /* PlanetObstacle.swift */,
 			);
 			name = Obstacle;
 			sourceTree = "<group>";
@@ -214,8 +220,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E595ABAB1D67304C0082A44D /* GameScene.swift in Sources */,
+				E51753561E687DD500C348EA /* GradientBackground.swift in Sources */,
 				E595AC0B1D69E44A0082A44D /* ScreenBorders.swift in Sources */,
 				E54BBD801DB15EBC0082386F /* Obstacle.swift in Sources */,
+				E51777EB1E6840FB00CE0519 /* PlanetObstacle.swift in Sources */,
 				E562C7EF1E561BFF002C6461 /* FinnishLine.swift in Sources */,
 				E595AC0D1D69E4680082A44D /* Constants.swift in Sources */,
 				E595ABAD1D67304C0082A44D /* GameViewController.swift in Sources */,

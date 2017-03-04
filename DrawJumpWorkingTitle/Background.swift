@@ -17,10 +17,26 @@ class Background:SKSpriteNode {
     var middleBackground:SKSpriteNode!
     var topBackground:SKSpriteNode!
     
+    var topColor:CIColor!
+    var bottomColor:CIColor!
+    
+    let color1 = CIColor(red: 52/255, green: 70/255, blue: 147/255)
+    let color2 = CIColor(red: 63/255, green: 51/255, blue: 101/255)
+    let color3 = CIColor(red: 104/255, green: 56/255, blue: 112/255)
+    
+    var colors:[CIColor]!
     
     init(size:CGSize, starCount: Int){
         backgrounds=[]
         super.init(texture: nil, color: .clear, size: size)
+
+        colors = [color1,color2,color3]
+        
+        bottomColor = colors.removeFirst()
+        colors.append(bottomColor)
+        topColor = colors.removeFirst()
+        colors.append(topColor)
+        
         
         createBackgrounds(size: size, starCount: starCount)
     }
@@ -29,15 +45,15 @@ class Background:SKSpriteNode {
         
         bottomBackground=SKSpriteNode(texture: nil, color: .clear, size: size)
         bottomBackground.position = CGPoint(x: 0, y: 0)
-        bottomBackground.texture = SKTexture(imageNamed: "background")
+        bottomBackground.texture = generateGradient()
         
         middleBackground=SKSpriteNode(texture: nil, color: .clear, size: size)
         middleBackground.position = CGPoint(x: 0, y: size.height)
-        middleBackground.texture = SKTexture(imageNamed: "background")
+        middleBackground.texture = generateGradient()
         
         topBackground=SKSpriteNode(texture: nil, color: .clear, size: size)
         topBackground.position=CGPoint(x: 0, y: 2*size.height)
-        topBackground.texture = SKTexture(imageNamed: "background")
+        topBackground.texture = generateGradient()
         
         backgrounds.append(bottomBackground)
         backgrounds.append(middleBackground)
@@ -49,6 +65,18 @@ class Background:SKSpriteNode {
         }
         
     }
+    
+    func generateGradient() -> SKTexture{
+        
+        bottomColor = topColor
+        topColor = colors.removeFirst()
+        colors.append(topColor)
+        
+        let texture = SKTexture(size: CGSize(width:200,height: 200), color1: bottomColor, color2: topColor, direction: .Up)
+        texture.filteringMode = .nearest
+        
+        return texture
+        }
     
     func populate(background:SKSpriteNode, starCount:Int){
         
@@ -99,6 +127,7 @@ class Background:SKSpriteNode {
     func moveBottomBackground(){
         backgrounds.first?.position.y = backgrounds.last!.position.y + size.height
         let bottomBackground = backgrounds.removeFirst()
+        bottomBackground.texture = generateGradient()
         backgrounds.append(bottomBackground)
     }
     
