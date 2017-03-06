@@ -24,6 +24,8 @@
 		E595AC0D1D69E4680082A44D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E595AC0C1D69E4680082A44D /* Constants.swift */; };
 		E595AC111D6B307B0082A44D /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = E595AC101D6B307B0082A44D /* Hero.swift */; };
 		E595AC131D6B5F0A0082A44D /* Trampoline.swift in Sources */ = {isa = PBXBuildFile; fileRef = E595AC121D6B5F0A0082A44D /* Trampoline.swift */; };
+		E5C068D61E6B3258000A9E26 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C068D51E6B3258000A9E26 /* MainMenuScene.swift */; };
+		E5C068D81E6B3667000A9E26 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C068D71E6B3667000A9E26 /* MainMenu.swift */; };
 		E5DC786F1E510B4D00A527E6 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC786E1E510B4D00A527E6 /* Background.swift */; };
 		E5DC78791E51132900A527E6 /* TrampolineScribble.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC78781E51132900A527E6 /* TrampolineScribble.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +50,8 @@
 		E595AC0C1D69E4680082A44D /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E595AC101D6B307B0082A44D /* Hero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		E595AC121D6B5F0A0082A44D /* Trampoline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trampoline.swift; sourceTree = "<group>"; };
+		E5C068D51E6B3258000A9E26 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
+		E5C068D71E6B3667000A9E26 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		E5DC786E1E510B4D00A527E6 /* Background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		E5DC78781E51132900A527E6 /* TrampolineScribble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrampolineScribble.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,6 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				E595ABAA1D67304C0082A44D /* GameScene.swift */,
+				E5C068D51E6B3258000A9E26 /* MainMenuScene.swift */,
+				E5C068D71E6B3667000A9E26 /* MainMenu.swift */,
 				E562C7EE1E561BFF002C6461 /* FinnishLine.swift */,
 				E595AC0C1D69E4680082A44D /* Constants.swift */,
 				E595ABA61D67304C0082A44D /* AppDelegate.swift */,
@@ -220,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E595ABAB1D67304C0082A44D /* GameScene.swift in Sources */,
+				E5C068D81E6B3667000A9E26 /* MainMenu.swift in Sources */,
 				E51753561E687DD500C348EA /* GradientBackground.swift in Sources */,
 				E595AC0B1D69E44A0082A44D /* ScreenBorders.swift in Sources */,
 				E54BBD801DB15EBC0082386F /* Obstacle.swift in Sources */,
@@ -228,6 +235,7 @@
 				E595AC0D1D69E4680082A44D /* Constants.swift in Sources */,
 				E595ABAD1D67304C0082A44D /* GameViewController.swift in Sources */,
 				E5DC786F1E510B4D00A527E6 /* Background.swift in Sources */,
+				E5C068D61E6B3258000A9E26 /* MainMenuScene.swift in Sources */,
 				E595AC111D6B307B0082A44D /* Hero.swift in Sources */,
 				E595AC131D6B5F0A0082A44D /* Trampoline.swift in Sources */,
 				E51777E91E633FF300CE0519 /* PauseMenuButton.swift in Sources */,

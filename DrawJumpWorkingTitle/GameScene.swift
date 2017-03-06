@@ -60,6 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var countDownNumber:Int = 3
     var countDownTimer:Timer!
     
+    
     override func didMove(to view: SKView) {
         
         /* Setup your scene here */
@@ -85,13 +86,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         physicsWorld.contactDelegate = self
-        
-        let bottomBorder = SideBorder(size: view.frame.size)
-        bottomBorder.zRotation=CGFloat(M_PI_2)
-        bottomBorder.position.x=view.center.x
-        bottomBorder.position.y=2
-        //addChild(bottomBorder)
-        
         physicsWorld.gravity.dy = 3*physicsWorld.gravity.dy/4
         
         setupSideBorders()
@@ -352,7 +346,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         } else {
-            startGame()
+            if(!(pauseButton?.contains((touches.first?.location(in: mainCamera))!))!){
+                startGame()
+            }
         }
         
         let touch = touches.first?.location(in: mainCamera)
@@ -361,8 +357,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if(!gamePaused){
                 pauseGame()
-            }else{
-                resumeGame()
             }
             
         }
@@ -379,9 +373,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if (pauseMenu.mainMenuButton.contains(touch!)){
                 print("going to main menu")
+                showMainMenu()
             }
         }
         
+    }
+    
+    func showMainMenu(){
+        let transition = SKTransition.reveal(with: .down, duration: 0.3)
+        
+        let mainMenuScene = MainMenuScene(size: scene!.size)
+        mainMenuScene.scaleMode = .aspectFill
+        
+        scene?.view?.presentScene(mainMenuScene, transition: transition)
     }
     
     func pauseGame(){
@@ -474,7 +478,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if rescueTrampoline == contact.bodyA.node{
+        if contact.bodyA.node == rescueTrampoline || contact.bodyB.node == rescueTrampoline{
             
             hero.physicsBody?.applyImpulse(rescueTrampoline.jumpforce)
             rescueTrampoline.removeFromParent()
