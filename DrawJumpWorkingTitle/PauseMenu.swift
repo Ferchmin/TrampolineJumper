@@ -28,7 +28,7 @@ class PauseMenu:SKSpriteNode{
     //Buttons
     var resumeButton:PauseMenuButton!
     var restartButton:PauseMenuButton!
-    var mainMenuButton:PauseMenuButton!
+    var resetButton:PauseMenuButton!
     
     
     init(size:CGSize){
@@ -86,9 +86,9 @@ class PauseMenu:SKSpriteNode{
     }
     
     func setupMainMenuButton(size:CGSize){
-        mainMenuButton = PauseMenuButton(size: size, text: "Main Menu")
-        mainMenuButton.position = CGPoint(x: 0, y: -50)
-        addChild(mainMenuButton)
+        resetButton = PauseMenuButton(size: size, text: "Reset high score")
+        resetButton.position = CGPoint(x: 0, y: -50)
+        addChild(resetButton)
     }
     
     

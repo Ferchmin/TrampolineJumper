@@ -73,7 +73,7 @@ class Hero:SKSpriteNode{
         physicsBody = SKPhysicsBody(circleOfRadius: radius)
         physicsBody?.isDynamic=false
         physicsBody?.categoryBitMask = heroCategory
-        physicsBody?.contactTestBitMask = borderCategory | trampolineCategory | obstacleCategory | finnishCategory | drawnTrampolineCategory
+        physicsBody?.contactTestBitMask = borderCategory | trampolineCategory | obstacleCategory | finnishCategory | drawnTrampolineCategory | collectibleCategory
         physicsBody?.collisionBitMask = borderCategory | trampolineCategory | obstacleCategory | drawnTrampolineCategory
         physicsBody?.affectedByGravity = true
         physicsBody?.linearDamping=0.5

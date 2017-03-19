@@ -131,6 +131,13 @@ class Background:SKSpriteNode {
         backgrounds.append(bottomBackground)
     }
     
+    func moveTopBackground(){
+        backgrounds.last?.position.y = backgrounds.last!.position.y - size.height
+        let topBackground = backgrounds.removeLast()
+        topBackground.texture = generateGradient()
+        backgrounds.insert(topBackground, at: 0)
+    }
+    
     func restoreStartingPosition(starCount:Int){
         for background in backgrounds{
             background.position.y = size.height*CGFloat(backgrounds.index(of: background)!)

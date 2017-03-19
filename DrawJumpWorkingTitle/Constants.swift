@@ -15,3 +15,4 @@ let borderCategory:UInt32 = 0x1 << 2
 let finnishCategory:UInt32 = 0x1 << 3
 let obstacleCategory:UInt32 = 0x1 << 4
 let drawnTrampolineCategory:UInt32 = 0x1 << 5
+let collectibleCategory:UInt32 = 0x1 << 6

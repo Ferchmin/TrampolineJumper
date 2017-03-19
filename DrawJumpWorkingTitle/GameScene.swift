@@ -7,11 +7,26 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var soundPlayer:AVAudioPlayer!
+    var audioPlayer:AVAudioPlayer!
+    
     var obstacles:[PlanetObstacle] = []
     var unusedObstales:[PlanetObstacle] = []
+    
+    var unusedStars:[Collectible] = []
+    var stars:[Collectible] = []
+    
+    
+    var starLabel:SKLabelNode?
+    var starCounter:Int = 0{
+        didSet{
+            self.starLabel?.text = "\(starCounter)"
+        }
+    }
     
     //Starting the game
     var clickToStartLabel:SKLabelNode?
@@ -25,10 +40,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pauseButton:SKSpriteNode!
     var pauseMenu:PauseMenu!
     
+    var mainMenu:MainMenu!
+    
     //Points
     var points:Int = 0
     var pointsOld:Int = 0
     var pointsLabel:SKLabelNode?
+    var scoreManager:ScoreManager!
+    var highScoreLines:[ScoreLine] = []
     
     //camera
     var mainCamera: SKCameraNode!
@@ -61,6 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var countDownTimer:Timer!
     
     
+    
     override func didMove(to view: SKView) {
         
         /* Setup your scene here */
@@ -74,6 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setupPauseMenu()
         setupPointsLabel()
+        setupMainMenu()
         
         setupHero(15)
         //setupScreenBorders()
@@ -83,6 +104,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPauseButton()
         
         createObstacles(count: 3)
+        createStars(count: 3)
+        setupStarLabel()
         
         
         physicsWorld.contactDelegate = self
@@ -90,18 +113,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setupSideBorders()
         
-        //startCountDown()
+        scoreManager = ScoreManager()
+        setupScoreLines()
+        
+        playAudio()
+
+        
+    }
+    
+    func playAudio(){
+        let path = Bundle.main.path(forResource: "music.mp3", ofType: nil)
+        let url = URL(fileURLWithPath: path!)
+        
+        do{
+            let sound = try AVAudioPlayer(contentsOf: url)
+            audioPlayer = sound
+            sound.numberOfLoops = -1
+            sound.volume = 0.5
+            sound.play()
+        }catch{
+            
+        }
+    }
+    
+    func setupScoreLines(){
+        
+        for line in highScoreLines{
+            line.removeFromParent()
+        }
+        
+        if let lastScore = scoreManager.getLastScore(){
+            if(lastScore != 0){
+                let lastScoreLine = ScoreLine(size: self.size, points: lastScore, color: .green)
+                highScoreLines.append(lastScoreLine)
+                addChild(lastScoreLine)
+                print("last score: \(scoreManager.lastScore!)")
+            }
+        }
+        
+        if let highScore = scoreManager.getHighScore() {
+            if(highScore != 0){
+                let highScoreLine = ScoreLine(size: self.size, points: highScore, color: .red)
+                highScoreLines.append(highScoreLine)
+                addChild(highScoreLine)
+                print("highScore: \(scoreManager.highScore!)")
+            }
+        }
     }
     
     func createObstacles(count n:Int){
-        
         let backgroundQueue = DispatchQueue(label: "com.app.queue", qos: .background, target: nil)
         
         backgroundQueue.async {
-            
             for i in 1...n{
-                
-                print(i)
                 let obstacleXPosition = CGFloat(arc4random_uniform(250) + 95)
                 let obstacleSize = CGFloat(arc4random_uniform(50)+50)
                 
@@ -110,8 +174,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.unusedObstales.append(obstacle)
             }
         }
-        
+    }
     
+    func createStars(count n:Int){
+        let backgroundQueue = DispatchQueue(label: "com.app.queue", qos: .background, target: nil)
+        
+        backgroundQueue.async {
+            for i in 1...n{
+                let starXposition = CGFloat(arc4random_uniform(250) + 95)
+                let size = CGSize(width: 50, height: 50)
+                
+                let star = StarCollectible(size: size)
+                star.position = CGPoint(x:starXposition,y:0)
+                self.unusedStars.append(star)
+            }
+        }
     }
     
     func setupCountDownLabel(){
@@ -127,8 +204,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupPauseMenu(){
         pauseMenu = PauseMenu(size: frame.size)
-        pauseMenu.position = CGPoint(x: 0, y: 0)
+        pauseMenu.position = CGPoint.zero
         mainCamera.addChild(pauseMenu)
+    }
+    
+    func setupMainMenu(){
+        mainMenu=MainMenu(size: frame.size)
+        mainMenu.position = CGPoint.zero
+        mainCamera.addChild(mainMenu)
     }
     
     func showPauseMenu(){
@@ -139,12 +222,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pauseMenu.run(zoomIn)
     }
     
-    func hidePauseMenu(){
+    func hidePauseMenu(completion:@escaping ()->Void){
         let fadeOut = SKAction.fadeOut(withDuration: 0.1)
         let zoomIn = SKAction.scale(by: 1.05, duration: 0.1)
         
         pauseMenu.run(fadeOut)
-        pauseMenu.run(zoomIn.reversed())
+        pauseMenu.run(zoomIn.reversed(), completion: {
+            completion()
+        })
     }
     
     func setupFinnishLine(){
@@ -164,7 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupRescueTrampoline(){
-        rescueTrampoline=Trampoline(begin: CGPoint(x: -170, y: -315), end: CGPoint(x: 170, y: -315),color: .white)
+        rescueTrampoline=Trampoline(begin: CGPoint(x: -self.frame.width/2 + 15, y: -self.frame.height/2 + 15), end: CGPoint(x: self.frame.width/2 - 15, y: -self.frame.height/2 + 15),color: .white)
         rescueTrampoline.physicsBody?.restitution=1
         rescueTrampoline.stroke.strokeColor = UIColor.white
         mainCamera.addChild(rescueTrampoline)
@@ -190,6 +275,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pointsLabel?.position = CGPoint(x: -frame.width/2 + 10, y: frame.height/2-25)
         
         mainCamera.addChild(pointsLabel!)
+    }
+    
+    func setupStarLabel(){
+        starLabel = SKLabelNode(fontNamed:"Helvetica Neue Light")
+        starLabel?.text = "\(starCounter)"
+        starLabel?.fontSize = 20
+        starLabel?.horizontalAlignmentMode = .center
+        starLabel?.fontColor = UIColor.yellow
+        starLabel?.position = CGPoint(x: 0, y: frame.height/2-25)
+        
+        mainCamera.addChild(starLabel!)
     }
     
     func setupRestartLabel(){
@@ -297,6 +393,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameStarted {
             for t in touches{
                 //Get trampoline starting point in VIEW (relative to the scene center)
+                removeTrampoline()
                 touchLocation.begin = t.location(in: mainCamera)
                 hasBouncedOnDrawn = false
             }
@@ -316,7 +413,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //trampolineScribble.path = path
                 
                 if(!hasBouncedOnDrawn){
-                    createDrawnTrampoline(begin: touchLocation.begin, end: touchLocation.end)
+                        createDrawnTrampoline(begin: touchLocation.begin, end: touchLocation.end)
                 }
                 
             }
@@ -364,28 +461,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(gamePaused){
             if (pauseMenu.restartButton.contains(touch!)){
                 restartGame()
-                hidePauseMenu()
+                hidePauseMenu(completion: {})
                 gamePaused = false
                 physicsWorld.speed = 1
             }
             if (pauseMenu.resumeButton.contains(touch!)){
                 resumeGame()
             }
-            if (pauseMenu.mainMenuButton.contains(touch!)){
-                print("going to main menu")
-                showMainMenu()
+            if (pauseMenu.resetButton.contains(touch!)){
+                print("reseting stats")
+                scoreManager.resetHighScore()
+                setupScoreLines()
             }
         }
         
     }
     
     func showMainMenu(){
-        let transition = SKTransition.reveal(with: .down, duration: 0.3)
+        showPauseMenu()
+        physicsWorld.speed = 0
+        gamePaused = true
         
-        let mainMenuScene = MainMenuScene(size: scene!.size)
-        mainMenuScene.scaleMode = .aspectFill
+        let fadeIn = SKAction.fadeIn(withDuration: 0.1)
+        let zoomIn = SKAction.scale(by: 1.05, duration: 0.1)
         
-        scene?.view?.presentScene(mainMenuScene, transition: transition)
+        mainMenu.run(fadeIn)
+        mainMenu.run(zoomIn)
+    }
+
+    
+    func hideMainMenu(){
+        let fadeOut = SKAction.fadeOut(withDuration: 0.1)
+        let zoomIn = SKAction.scale(by: 1.05, duration: 0.1)
+        
+        mainMenu.run(fadeOut)
+        mainMenu.run(zoomIn.reversed())
     }
     
     func pauseGame(){
@@ -396,7 +506,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resumeGame(){
-        hidePauseMenu()
+        hidePauseMenu(completion: {})
         startCountDown()
     }
     
@@ -458,9 +568,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func playCollectSound(){
+        let path = Bundle.main.path(forResource: "collect.mp3", ofType: nil)
+        let url = URL(fileURLWithPath: path!)
+        
+        do{
+            let sound = try AVAudioPlayer(contentsOf: url)
+            soundPlayer = sound
+            sound.numberOfLoops = 1
+            sound.play()
+        }catch{
+            
+        }
+
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
         
-        print("\(contact.bodyA.categoryBitMask)")
+        if contact.bodyB.node?.physicsBody?.categoryBitMask == collectibleCategory{
+            let star = contact.bodyB.node as! StarCollectible
+            star.disapearAtContact()
+            star.removeFromParent()
+            starCounter += 1
+            
+            playCollectSound()
+            
+            
+        }
         
         if contact.bodyA.node?.physicsBody?.categoryBitMask == trampolineCategory {
             for trampoline in trampolines {
@@ -515,11 +649,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if contact.bodyA.categoryBitMask == finnishCategory{
-            restartGameAfterLosing()
+            restartGameAfterLosing(completion:{
+                self.scoreManager.saveHighScore()
+                self.scoreManager.saveLastScore()
+                self.setupScoreLines()
+            })
         }
     }
     
-    func restartGameAfterLosing(){
+    func restartGameAfterLosing(completion:@escaping ()->Void){
         
         finnishLine.physicsBody?.contactTestBitMask = 0
         let heroAction = SKAction.move(to: CGPoint(x: view!.center.x, y: view!.center.y-50),duration: 0)
@@ -530,6 +668,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mainCamera.run(camAction, completion: {
             self.restartGame()
             self.finnishLine.physicsBody?.contactTestBitMask = heroCategory
+            completion()
         })
 
     }
@@ -550,38 +689,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if points > pointsOld {
             pointsLabel?.text = "\(points) pts"
             pointsOld = points
+            scoreManager.points = points
             
             GameScene.Count = Int(points/2000) + 2
-            
         }
-        
-        
+    
         if (!mainCamera.contains(background.backgrounds[0])) {
             background.moveBottomBackground()
-            }
+        }
         
         if (!generated) {
             if(hasBounced){
                 if (hero.physicsBody?.velocity.dy)! < 500 {
                     if obstacles.count>0{
-                        if hero.position.y - (obstacles.last?.position.y)! > 250 {
-                            
-                            let obstacle = unusedObstales.removeFirst()
-                            obstacle.position.y = hero.position.y + 350
-                            obstacles.append(obstacle)
-                            addChild(obstacle)
-                            
-                            createObstacles(count: 1)
+                        if hero.position.y - (obstacles.last?.position.y)! > 250 && hero.position.y - (stars.last?.position.y)! > 250 {
+                            let starOrObstacle = CGFloat(arc4random_uniform(5))
+                            if(starOrObstacle < 2){
+                                let obstacle = unusedObstales.removeFirst()
+                                obstacle.position.y = hero.position.y + 350
+                                obstacles.append(obstacle)
+                                addChild(obstacle)
+                                createObstacles(count: 1)
+                            }else{
+                                let star = unusedStars.removeFirst()
+                                star.position.y = hero.position.y + 350
+                                stars.append(star)
+                                addChild(star)
+                                createStars(count: 1)
+                            }
                             
                             generated = true
+                            
                         }
                     }else {
-
                         let obstacle = unusedObstales.removeFirst()
                         obstacle.position.y = hero.position.y + 350
                         obstacles.append(obstacle)
                         addChild(obstacle)
                         
+                        let star = unusedStars.removeFirst()
+                        star.position.y = hero.position.y + 350
+                        stars.append(star)
+                        
+                        createStars(count: 1)
                         createObstacles(count: 1)
                         generated = true
                     }

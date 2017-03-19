@@ -21,7 +21,7 @@ class MainMenu:SKSpriteNode{
     //Buttons
     var continueButton:PauseMenuButton!
     var startButton:PauseMenuButton!
-    var highScoresButton:PauseMenuButton!
+    var resetStatsButton:PauseMenuButton!
     
     
     init(size:CGSize){
@@ -31,7 +31,7 @@ class MainMenu:SKSpriteNode{
         setupMainMenuShape(size: size)
         
         self.zPosition = 5
-        self.alpha = 1
+        self.alpha = 0
     }
     
     func setupNameLabel(){
@@ -61,7 +61,7 @@ class MainMenu:SKSpriteNode{
         
         setupContinueButton(size: self.size)
         setupStartButton(size: self.size)
-        setupHighScoresButton(size: self.size)
+        setupResetStatsButton(size: self.size)
         
     }
     
@@ -73,17 +73,16 @@ class MainMenu:SKSpriteNode{
     }
     
     func setupStartButton(size:CGSize){
-        startButton = PauseMenuButton(size:size, text: "New Game")
+        startButton = PauseMenuButton(size:size, text: "Start")
         startButton.position = CGPoint(x: 0, y: 20)
         addChild(startButton)
     }
     
-    func setupHighScoresButton(size:CGSize){
-        highScoresButton = PauseMenuButton(size: size, text: "High Scores")
-        highScoresButton.position = CGPoint(x: 0, y: -50)
-        addChild(highScoresButton)
+    func setupResetStatsButton(size:CGSize){
+        resetStatsButton = PauseMenuButton(size: size, text: "Reset Stats")
+        resetStatsButton.position = CGPoint(x: 0, y: -50)
+        addChild(resetStatsButton)
     }
-    
     
     
     required init?(coder aDecoder: NSCoder) {
