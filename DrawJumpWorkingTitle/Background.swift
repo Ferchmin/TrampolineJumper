@@ -93,7 +93,7 @@ class Background:SKSpriteNode {
             let alpha:Float = Float(arc4random_uniform(10))/10
             
             star.color = UIColor(colorLiteralRed: 255/255, green: 255/255, blue: 255/255, alpha: alpha)
-            star.zRotation=CGFloat(M_PI_2/2)
+            star.zRotation = CGFloat.pi/4
             
             let x=CGFloat(arc4random_uniform(UInt32(size.width-40))) - size.width/2 + 20
             let y=CGFloat(arc4random_uniform(UInt32(size.height))) - size.height/2
@@ -112,7 +112,7 @@ class Background:SKSpriteNode {
             let alpha:Float = Float(arc4random_uniform(10))/10
             
             star.color = UIColor(colorLiteralRed: 255/255, green: 255/255, blue: 255/255, alpha: alpha)
-            star.zRotation=CGFloat(M_PI_2/2)
+            star.zRotation=CGFloat.pi/4
             
             let guassianDistributionForX = GKGaussianDistribution(lowestValue: -Int(size.width/4), highestValue: Int(size.width/4))
             

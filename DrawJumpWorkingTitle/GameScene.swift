@@ -165,7 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let backgroundQueue = DispatchQueue(label: "com.app.queue", qos: .background, target: nil)
         
         backgroundQueue.async {
-            for i in 1...n{
+            for _ in 1...n{
                 let obstacleXPosition = CGFloat(arc4random_uniform(250) + 95)
                 let obstacleSize = CGFloat(arc4random_uniform(50)+50)
                 
@@ -180,7 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let backgroundQueue = DispatchQueue(label: "com.app.queue", qos: .background, target: nil)
         
         backgroundQueue.async {
-            for i in 1...n{
+            for _ in 1...n{
                 let starXposition = CGFloat(arc4random_uniform(250) + 95)
                 let size = CGSize(width: 50, height: 50)
                 
@@ -364,6 +364,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func restartGame(){
         
+        starCounter = 0
         for obstacle in obstacles {
             obstacle.removeFromParent()
         }
@@ -679,66 +680,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if(!gamePaused){
             
-        
-        hero.update()
-        
-        //print(hero.physicsBody?.velocity.dy)
-        
-        points = Int((hero.position.y - (view!.center.y+50))/10)
-    
-        if points > pointsOld {
-            pointsLabel?.text = "\(points) pts"
-            pointsOld = points
-            scoreManager.points = points
+            hero.update()
             
-            GameScene.Count = Int(points/2000) + 2
-        }
-    
-        if (!mainCamera.contains(background.backgrounds[0])) {
-            background.moveBottomBackground()
-        }
-        
-        if (!generated) {
-            if(hasBounced){
-                if (hero.physicsBody?.velocity.dy)! < 500 {
-                    if obstacles.count>0{
-                        if hero.position.y - (obstacles.last?.position.y)! > 250 && hero.position.y - (stars.last?.position.y)! > 250 {
-                            let starOrObstacle = CGFloat(arc4random_uniform(5))
-                            if(starOrObstacle < 2){
-                                let obstacle = unusedObstales.removeFirst()
-                                obstacle.position.y = hero.position.y + 350
-                                obstacles.append(obstacle)
-                                addChild(obstacle)
-                                createObstacles(count: 1)
-                            }else{
-                                let star = unusedStars.removeFirst()
-                                star.position.y = hero.position.y + 350
-                                stars.append(star)
-                                addChild(star)
-                                createStars(count: 1)
-                            }
-                            
-                            generated = true
-                            
-                        }
-                    }else {
-                        let obstacle = unusedObstales.removeFirst()
-                        obstacle.position.y = hero.position.y + 350
-                        obstacles.append(obstacle)
-                        addChild(obstacle)
-                        
-                        let star = unusedStars.removeFirst()
-                        star.position.y = hero.position.y + 350
-                        stars.append(star)
-                        
-                        createStars(count: 1)
-                        createObstacles(count: 1)
-                        generated = true
-                    }
-                }
-
+            //print(hero.physicsBody?.velocity.dy)
+            
+            points = Int((hero.position.y - (view!.center.y+50))/10)
+            
+            if points > pointsOld {
+                pointsLabel?.text = "\(points) pts"
+                pointsOld = points
+                scoreManager.points = points
+                
+                GameScene.Count = Int(points/2000) + 2
             }
-        }
+            
+            if (!mainCamera.contains(background.backgrounds[0])) {
+                background.moveBottomBackground()
+            }
+            
+            if (!generated) {
+                if(hasBounced){
+                    if (hero.physicsBody?.velocity.dy)! < 500 {
+                        if obstacles.count>0{
+                            if hero.position.y - (obstacles.last?.position.y)! > 250 && hero.position.y - (stars.last?.position.y)! > 250 {
+                                let starOrObstacle = CGFloat(arc4random_uniform(5))
+                                if(starOrObstacle < 2){
+                                    let obstacle = unusedObstales.removeFirst()
+                                    obstacle.position.y = hero.position.y + 350
+                                    obstacles.append(obstacle)
+                                    addChild(obstacle)
+                                    createObstacles(count: 1)
+                                }else{
+                                    let star = unusedStars.removeFirst()
+                                    star.position.y = hero.position.y + 350
+                                    stars.append(star)
+                                    addChild(star)
+                                    createStars(count: 1)
+                                }
+                                
+                                generated = true
+                                
+                            }
+                        }else {
+                            let obstacle = unusedObstales.removeFirst()
+                            obstacle.position.y = hero.position.y + 350
+                            obstacles.append(obstacle)
+                            addChild(obstacle)
+                            
+                            let star = unusedStars.removeFirst()
+                            star.position.y = hero.position.y + 350
+                            stars.append(star)
+                            
+                            createStars(count: 1)
+                            createObstacles(count: 1)
+                            generated = true
+                        }
+                    }
+                    
+                }
+            }
             
         }//gamepaused
     }

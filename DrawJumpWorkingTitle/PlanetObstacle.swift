@@ -83,7 +83,7 @@ class PlanetObstacle:Obstacle{
         
         texture = SKTexture(image: #imageLiteral(resourceName: "onlyRingsSmall"))
         
-        self.zRotation = CGFloat(M_PI_2/3)
+        self.zRotation = CGFloat.pi/6
     }
     
     func addGlow(radius:CGFloat, color:UIColor, size:CGSize){
