@@ -34,6 +34,7 @@
 		E5C068D81E6B3667000A9E26 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C068D71E6B3667000A9E26 /* MainMenu.swift */; };
 		E5DC786F1E510B4D00A527E6 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC786E1E510B4D00A527E6 /* Background.swift */; };
 		E5DC78791E51132900A527E6 /* TrampolineScribble.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC78781E51132900A527E6 /* TrampolineScribble.swift */; };
+		E5FF8CC71E8D675100846165 /* 1*X0YAhnDmAmUXec83Y1IDZA.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E5FF8CC61E8D675100846165 /* 1*X0YAhnDmAmUXec83Y1IDZA.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		E5C068D71E6B3667000A9E26 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		E5DC786E1E510B4D00A527E6 /* Background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		E5DC78781E51132900A527E6 /* TrampolineScribble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrampolineScribble.swift; sourceTree = "<group>"; };
+		E5FF8CC61E8D675100846165 /* 1*X0YAhnDmAmUXec83Y1IDZA.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1*X0YAhnDmAmUXec83Y1IDZA.jpeg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			children = (
 				E595ABA51D67304C0082A44D /* DrawJumpWorkingTitle */,
 				E595ABA41D67304C0082A44D /* Products */,
+				E5FF8CC61E8D675100846165 /* 1*X0YAhnDmAmUXec83Y1IDZA.jpeg */,
 			);
 			sourceTree = "<group>";
 		};
@@ -242,6 +245,7 @@
 				E570503F1E7F0FF7003D51CF /* collect.mp3 in Resources */,
 				E595ABB51D67304C0082A44D /* LaunchScreen.storyboard in Resources */,
 				E58ECA731E7C05CD00C88281 /* UserData.plist in Resources */,
+				E5FF8CC71E8D675100846165 /* 1*X0YAhnDmAmUXec83Y1IDZA.jpeg in Resources */,
 				E595ABB21D67304C0082A44D /* Assets.xcassets in Resources */,
 				E595ABB01D67304C0082A44D /* Main.storyboard in Resources */,
 			);
@@ -396,7 +400,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = DrawJumpWorkingTitle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = pawel.DrawJumpWorkingTitle;
+				PRODUCT_BUNDLE_IDENTIFIER = pawel.DrawJump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
@@ -412,7 +416,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = DrawJumpWorkingTitle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = pawel.DrawJumpWorkingTitle;
+				PRODUCT_BUNDLE_IDENTIFIER = pawel.DrawJump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
